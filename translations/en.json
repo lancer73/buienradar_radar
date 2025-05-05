@@ -1,0 +1,32 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Buienradar Rain Radar",
+        "description": "Set up the Buienradar rain radar display",
+        "data": {
+          "name": "Name",
+          "image_refresh_seconds": "Image refresh interval (seconds)"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to connect",
+      "invalid_refresh": "Refresh interval must be between 60 and 3600 seconds"
+    },
+    "abort": {
+      "already_configured": "Device is already configured"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Buienradar Radar Options",
+        "description": "Configure the Buienradar rain radar settings",
+        "data": {
+          "image_refresh_seconds": "Image refresh interval (seconds)"
+        }
+      }
+    }
+  }
+}

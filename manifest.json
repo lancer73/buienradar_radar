@@ -1,0 +1,11 @@
+{
+  "domain": "buienradar_radar",
+  "name": "Buienradar Regenradar",
+  "documentation": "https://github.com/lancer73/buienradar-radar",
+  "dependencies": [],
+  "codeowners": ["@lancer73"],
+  "requirements": [],
+  "iot_class": "cloud_polling",
+  "version": "1.0.0",
+  "config_flow": true
+}

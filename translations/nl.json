@@ -1,0 +1,32 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Buienradar Regenradar",
+        "description": "Stel de Buienradar regenradar weergave in",
+        "data": {
+          "name": "Naam",
+          "image_refresh_seconds": "Verversingsinterval (seconden)"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Verbinding mislukt",
+      "invalid_refresh": "Verversingsinterval moet tussen 60 en 3600 seconden zijn"
+    },
+    "abort": {
+      "already_configured": "Apparaat is al geconfigureerd"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Buienradar Radar Opties",
+        "description": "Configureer de Buienradar regenradar instellingen",
+        "data": {
+          "image_refresh_seconds": "Verversingsinterval (seconden)"
+        }
+      }
+    }
+  }
+}
