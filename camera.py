@@ -17,7 +17,9 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType
+from homeassistant.helpers.event import async_track_time_interval
 from homeassistant.util import Throttle
+import homeassistant.util.dt as dt_util
 
 from . import DOMAIN, DEFAULT_NAME, CONF_IMAGE_REFRESH_SECONDS, RADAR_URL
 
@@ -51,7 +53,13 @@ class BuienradarCamera(Camera):
         self._session = session
         self._attr_content_type = 'image/png'
         self._entry_id = entry_id
-        self._attr_unique_id = f"buienradar_radar_{entry_id}" if entry_id else None
+        
+        # Fix for unique_id - ensure it always has a value
+        if entry_id:
+            self._attr_unique_id = f"buienradar_radar_{entry_id}"
+        else:
+            self._attr_unique_id = "buienradar_regenradar"
+            
         # Set up a scheduled task to refresh the image periodically
         self._remove_listener = None
 
@@ -81,9 +89,9 @@ class BuienradarCamera(Camera):
             """Refresh camera image on schedule determined by refresh_seconds."""
             await self.async_update_ha_state(True)
 
-        # Schedule the first update in 1 second
-        self._remove_listener = self.hass.helpers.event.async_track_time_interval(
-            _scheduled_refresh, timedelta(seconds=self._refresh_seconds)
+        # Fixed: Use the imported async_track_time_interval instead of accessing via hass.helpers
+        self._remove_listener = async_track_time_interval(
+            self.hass, _scheduled_refresh, timedelta(seconds=self._refresh_seconds)
         )
 
     async def async_will_remove_from_hass(self):
@@ -96,8 +104,13 @@ class BuienradarCamera(Camera):
         """Return a still image from the camera."""
         try:
             _LOGGER.debug("Fetching new radar image from Buienradar")
+            
+            # Add timestamp to URL to prevent caching issues
+            timestamp = dt_util.now().strftime('%Y%m%d%H%M%S')
+            url = f"{RADAR_URL}?time={timestamp}"
+            
             async with async_timeout.timeout(10):
-                response = await self._session.get(RADAR_URL)
+                response = await self._session.get(url)
                 if response.status == 200:
                     self._image = await response.read()
                     return self._image
