@@ -1,4 +1,4 @@
-“”“Buienradar Regenradar integration.”””
+"""Buienradar Regenradar integration."""
 from **future** import annotations
 
 import logging
